@@ -87,7 +87,7 @@ $StorageContext = New-AzStorageContext -StorageAccountName $storageAccountName -
 Write-Output("Downloading pre script from Storage Account Files")
 Get-AzStorageFileContent -ShareName $fileShareName -Path $preScriptPath -Context $StorageContext -Destination 'C:\Temp\'
 Write-Output("Running Pre Script")
-$InvokeResult = Invoke-AzVMRunCommand -ResourceGroupName $resourceGroupName -Name $vmName -CommandId 'RunShellScript' -ScriptPath 'C:\Temp\kaaror-pre.sh'
+$InvokeResult = Invoke-AzVMRunCommand -ResourceGroupName $resourceGroupName -Name $vmName -CommandId 'RunShellScript' -ScriptPath "C:\Temp\$preScriptPath"
 Write-Output ($InvokeResult.Value[0].Message)
 
 $count = 0
@@ -108,6 +108,6 @@ foreach($diskName in $diskNames)
 Write-Output("Downloading post script from Storage Account Files")
 Get-AzStorageFileContent -ShareName $fileShareName -Path $postScriptPath -Context $StorageContext -Destination 'C:\Temp\'
 Write-Output("Running Post Script")
-$InvokeResult = Invoke-AzVMRunCommand -ResourceGroupName $resourceGroupName -Name $vmName -CommandId 'RunShellScript' -ScriptPath 'C:\Temp\kaaror-post.sh'
+$InvokeResult = Invoke-AzVMRunCommand -ResourceGroupName $resourceGroupName -Name $vmName -CommandId 'RunShellScript' -ScriptPath "C:\Temp\$postScriptPath"
 Write-Output ($InvokeResult.Value[0].Message)
 
